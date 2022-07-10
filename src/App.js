@@ -13,7 +13,7 @@ function App() {
 
 
 
-function getAllFruits(){
+function getAllProducts(){
   setIsloading(true)
 
   fetch(`http://fakestoreapi.com/products`)
@@ -35,7 +35,7 @@ function getAllFruits(){
 
 
 useEffect(() =>{
-      getAllFruits();
+      getAllProducts();
  },[])
 
 
@@ -82,7 +82,7 @@ function filterIt(arr, searchKey) {
 function handleSearch(e) {
   setIsloading(true)
 const searchQuery = e.toLowerCase();
-const result = filterIt(getrawProduct, e);
+const result = filterIt(getrawProduct, searchQuery);
 
 // make a fresh array with the categories
 const productGroups= groubByCategory(result);
@@ -98,9 +98,9 @@ setTab(tab)
 setIsloading(true)
 let sortedProducts;
 
-if(tab == 'price'){
+if(tab === 'price'){
    sortedProducts = getrawProduct.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-}else if(tab == 'rating'){
+}else if(tab === 'rating'){
   sortedProducts = getrawProduct.sort((a, b) => parseFloat(b.rating.rate) - parseFloat(a.rating.rate));
 }
 
@@ -128,7 +128,7 @@ function DiplayProduct(products) {
           <span style={{width:200}}>{item.description.substring(0,200)}</span>
           <span>${item.price}</span>
           <span>{item.rating.rate}</span>
-          <img src={item.image} width="60" height="60" />
+          <img src={item.image} width="60" alt={item.title} height="60" />
      </div>
  ) )
 }
