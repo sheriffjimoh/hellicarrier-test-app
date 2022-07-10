@@ -13,6 +13,12 @@ function App() {
 
 
 
+
+
+useEffect(() =>{
+
+
+  
 function getAllProducts(){
   setIsloading(true)
 
@@ -32,10 +38,7 @@ function getAllProducts(){
              console.log(err.message);
            });
      }
-
-
-useEffect(() =>{
-      getAllProducts();
+    getAllProducts();
  },[])
 
 
