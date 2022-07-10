@@ -6,7 +6,9 @@ function App() {
 
   const [getProduct, setProduct] = useState([]);
   const [getrawProduct, setrawProduct] = useState([]);
-  const [isLoading, setIsloading] = useState(false)
+  const [isLoading, setIsloading] = useState(false);
+  const [tab, setTab] = useState(null);
+
 
 
 
@@ -34,7 +36,6 @@ function getAllFruits(){
 
 useEffect(() =>{
       getAllFruits();
-     sortByPrice();
  },[])
 
 
@@ -91,16 +92,32 @@ setIsloading(false)
 }
 
 
-function sortByPrice() {
-  const sortedProducts =  getrawProduct.sort(function(a, b) {
-    return ((a.price < b.price) ? 1 : (b.price < a.price) ? -1 : 0);
-});
+function hendleFilterProduct(tab) {
 
+setTab(tab)
+setIsloading(true)
+let sortedProducts;
 
-// console.log("Values:",  getrawProduct)
-
-// console.log("sorted:", sortedProducts);
+if(tab == 'price'){
+   sortedProducts = getrawProduct.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+}else if(tab == 'rating'){
+  sortedProducts = getrawProduct.sort((a, b) => parseFloat(b.rating.rate) - parseFloat(a.rating.rate));
 }
+
+// make a fresh array with the categories
+const productGroups= groubByCategory(sortedProducts);
+setProduct(productGroups);
+setIsloading(false);
+
+}
+
+
+
+function handleClearFilter(){
+   window.location.reload();
+}
+
+
 
 function DiplayProduct(products) {
    return  products.map((item, index)=>(
@@ -108,7 +125,8 @@ function DiplayProduct(products) {
     <div key={index}  className='tableContent'>
           <span>{item.id}</span>
           <span style={{width:100}}>{item.title}</span>
-          <span>{item.price}</span>
+          <span style={{width:200}}>{item.description.substring(0,200)}</span>
+          <span>${item.price}</span>
           <span>{item.rating.rate}</span>
           <img src={item.image} width="60" height="60" />
      </div>
@@ -116,11 +134,11 @@ function DiplayProduct(products) {
 }
 
 
-
+console.log("rawData:", getrawProduct);
   return (
     <div className="container">
       
-          <div className='miniContainer'>
+          <div className='miniContainer' >
 
               {/* search */}
             
@@ -138,23 +156,27 @@ function DiplayProduct(products) {
                   
 
                   <div className='filterItems'>
-                        <button>
-                              Lower Price
+                        <button className='button' onClick={()=> hendleFilterProduct('price')}  style={ tab === 'price' ? { backgroundColor:'orange', color:'#fff'}: {backgroundColor: 'bisque', } }>
+                              Lowest Price
                         </button>
 
-                        <button>
+                        <button className='button'  onClick={()=> hendleFilterProduct('rating')} style={ tab === 'rating' ? { backgroundColor:'orange', color:'#fff'}: {backgroundColor: 'bisque', } } >
                              Highest ratings
                         </button>
+
+                        <button  onClick={()=> handleClearFilter()}  >
+                           clear
+                        </button>
                    </div>
-                       
+               </div>
 
 
-                </div>
-
+          {/* table header */}
 
                      <header className='headerContainer'>
                            <span>ID</span>
                            <span>Product name</span>
+                           <span>Product Description</span>
                            <span>Price</span>
                            <span>Rating</span>
                            <span>Logo</span>
