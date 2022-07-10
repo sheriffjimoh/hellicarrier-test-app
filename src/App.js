@@ -8,6 +8,9 @@ function App() {
   const [getrawProduct, setrawProduct] = useState([]);
   const [isLoading, setIsloading] = useState(false)
 
+
+
+
 function getAllFruits(){
   setIsloading(true)
 
@@ -17,57 +20,87 @@ function getAllFruits(){
     setIsloading(false)
 
     if(data){
-      setrawProduct(data)
+          setrawProduct(data)
         // make a fresh array with the categories
-      const groups = data?.reduce((groups, product) => {
-              const category = product.category;
-              if (!groups[category]) {
-                groups[category] = [];
-              }
-              groups[category].push(product);
-              return groups;
-            }, {});
-
-
-            // convert the array to object with accesible keys
-            const productGroups = Object.keys(groups).map((category) => {
-              return {
-                category,
-                products: groups[category]
-              };
-            });
-
-            setProduct(productGroups)
+         const productGroups= groubByCategory(data);
+         setProduct(productGroups)
            }  
-          })
-            .catch((err) => {
+          }).catch((err) => {
               setIsloading(false)
-            console.log(err.message);
-            });
-}
+             console.log(err.message);
+           });
+     }
+
 
 useEffect(() =>{
- getAllFruits()
-},[])
+      getAllFruits();
+     sortByPrice();
+ },[])
+
+
+// this function group all product by category
+
+  function groubByCategory(data) {
+        
+        const groups = data?.reduce((groups, product) => {
+          const category = product.category;
+          if (!groups[category]) {
+            groups[category] = [];
+          }
+          groups[category].push(product);
+          return groups;
+        }, {});
+
+      // convert the array to object with accesible keys
+        const productGroups = Object.keys(groups).map((category) => {
+          return {
+            category,
+            products: groups[category]
+          };
+        });
+
+        return productGroups;
+  }
+
+
+
+
+
+
+function filterIt(arr, searchKey) {
+  return arr.filter(function(obj) {
+    return Object.keys(obj).some(function(key) {
+      return obj.title?.toLowerCase().includes(searchKey) ||  obj.description?.toLowerCase().includes(searchKey) || obj.category?.toLowerCase().includes(searchKey);
+    })
+  });
+}
+
 
 
 
 function handleSearch(e) {
+  setIsloading(true)
+const searchQuery = e.toLowerCase();
+const result = filterIt(getrawProduct, e);
 
-  var results = [];
- var toSearch = e;
-  
-        // for(var i=0; i < getrawProduct.length; i++) {
-        //   for(var key in getrawProduct[i]) {
-        //     if(getrawProduct[i][key].indexOf(toSearch)!=-1) {
-        //       results.push(getrawProduct[i]);
-        //     }
-        //   }
-        // }
+// make a fresh array with the categories
+const productGroups= groubByCategory(result);
+setProduct(productGroups);
+setIsloading(false)
 
-    console.log("result::", getrawProduct)
 }
 
+
+function sortByPrice() {
+  const sortedProducts =  getrawProduct.sort(function(a, b) {
+    return ((a.price < b.price) ? 1 : (b.price < a.price) ? -1 : 0);
+});
+
+
+// console.log("Values:",  getrawProduct)
+
+// console.log("sorted:", sortedProducts);
+}
 
 function DiplayProduct(products) {
    return  products.map((item, index)=>(
@@ -94,6 +127,25 @@ function DiplayProduct(products) {
               <div className='search-container'>
                   <input type="search" onChange={(e) => handleSearch(e.target.value)}    placeholder='Search  with any keywords' className='search-input' />
               </div>
+
+              {/* filter */}
+               
+                <div>
+                   <span>Filter By:</span>
+
+                   <div>
+                        <button>
+                              Lower Price
+                        </button>
+
+                        <button>
+                             Highest ratings
+                        </button>
+                   </div>
+                       
+
+
+                </div>
 
 
                      <header className='headerContainer'>
