@@ -130,10 +130,14 @@ function DiplayProduct(products) {
 
               {/* filter */}
                
-                <div>
-                   <span>Filter By:</span>
+                <div className='filterContainer'>
 
-                   <div>
+                  <div className='filterItems'>
+                     <span>Filter By:</span>
+                  </div>
+                  
+
+                  <div className='filterItems'>
                         <button>
                               Lower Price
                         </button>

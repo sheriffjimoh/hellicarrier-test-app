@@ -55,3 +55,22 @@
   padding: 10px;
   width: 47rem;
 }
+
+.filterContainer{
+  display: flex;
+  flex-direction: row;
+ margin-bottom: 15px;
+ margin-top: 10px;
+}
+
+.filterItems{
+  margin-right: 20px;
+}
+
+.filterItems button{
+   margin-right: 10px;
+   background-color: bisque;
+   border: none;
+   padding: 10px;
+   cursor: pointer;
+}
