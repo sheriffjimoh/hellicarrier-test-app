@@ -9,10 +9,10 @@
 
 RUN ON LOCAL MACHINE
 
-git clone  https://github.com/sheriffjimoh/hellicarrier-test-app.git
-cd hellicarrier-test-app
-npm install
-npm start
+* git clone  https://github.com/sheriffjimoh/hellicarrier-test-app.git
+* cd hellicarrier-test-app
+* npm install
+* npm start
 
 
 LIVE PROJECT
