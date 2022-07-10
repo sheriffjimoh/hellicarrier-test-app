@@ -30,7 +30,7 @@ function getAllProducts(){
     if(data){
           setrawProduct(data)
         // make a fresh array with the categories
-         const productGroups= groubByCategory(data);
+         const productGroups= groupByCategory(data);
          setProduct(productGroups)
            }  
           }).catch((err) => {
@@ -44,7 +44,7 @@ function getAllProducts(){
 
 // this function group all product by category
 
-  function groubByCategory(data) {
+  function groupByCategory(data) {
         
         const groups = data?.reduce((groups, product) => {
           const category = product.category;
@@ -88,7 +88,7 @@ const searchQuery = e.toLowerCase();
 const result = filterIt(getrawProduct, searchQuery);
 
 // make a fresh array with the categories
-const productGroups= groubByCategory(result);
+const productGroups= groupByCategory(result);
 setProduct(productGroups);
 setIsloading(false)
 
@@ -108,7 +108,7 @@ if(tab === 'price'){
 }
 
 // make a fresh array with the categories
-const productGroups= groubByCategory(sortedProducts);
+const productGroups= groupByCategory(sortedProducts);
 setProduct(productGroups);
 setIsloading(false);
 
