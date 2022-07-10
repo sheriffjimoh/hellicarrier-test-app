@@ -22,7 +22,7 @@ useEffect(() =>{
 function getAllProducts(){
   setIsloading(true)
 
-  fetch(`http://fakestoreapi.com/products`)
+  fetch(`https://fakestoreapi.com/products`)
   .then((response) => response.json())
   .then((data) => {
     setIsloading(false)
